@@ -16,7 +16,7 @@ def BurbujaOptimizado(lista_numeros):
     contador_pasos+=2
 
 
-    print("Ciclos Algoritmo Burbuja Optimizado: "+str(contador_ciclos))
+    print("\nCiclos Algoritmo Burbuja Optimizado: "+str(contador_ciclos))
     print("Pasos Algoritmo Burbuja Optimizado: "+str(contador_pasos)+"\n")
 
 # BURBUJA TRADICIONAL
@@ -63,7 +63,8 @@ def Seleccion (lista_numeros):
     print("Pasos Algoritmo Seleccion: "+str(contador_pasos))
 
 lista_numeros = []
-with open("pruebas/"+input("Ingrese el nombre del archivo pls: ")+".txt","r") as archivo:
+#LECTURA DEL ARCHIVO DE PRUEBA
+with open("pruebas/"+input("Ingrese el nombre del archivo: ")+".txt","r") as archivo:
     for linea in archivo:
         lista_numeros.append(int(linea))
 
