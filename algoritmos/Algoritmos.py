@@ -1,26 +1,26 @@
 
 # BURBUJA OPTIMIZADO
-def Burbuja (lista_numeros):
+def BurbujaOptimizado(lista_numeros):
     contador_pasos = 0
     contador_ciclos = 0
-    for i in range(len(lista_numeros)):
-        for j in range(i+1,len(lista_numeros)):
+    for i in range(len(lista_numeros)-1):
+        for j in range(len(lista_numeros)-i-1):
             contador_ciclos+=1
-            if lista_numeros[i]>lista_numeros[j]:
-                temp = lista_numeros[i]
-                lista_numeros[i] = lista_numeros[j]
-                lista_numeros[j]=temp
+            if lista_numeros[j]>lista_numeros[j+1]:
+                temp = lista_numeros[j]
+                lista_numeros[j] = lista_numeros[j+1]
+                lista_numeros[j+1]=temp
                 contador_pasos +=3
             contador_pasos+=3
         contador_pasos+=4
-    contador_pasos+=4
+    contador_pasos+=2
 
 
-    print("Ciclos Algoritmo Burbuja: "+str(contador_ciclos))
-    print("Pasos Algoritmo Burbuja: "+str(contador_pasos)+"\n")
+    print("Ciclos Algoritmo Burbuja Optimizado: "+str(contador_ciclos))
+    print("Pasos Algoritmo Burbuja Optimizado: "+str(contador_pasos)+"\n")
 
 # BURBUJA TRADICIONAL
-def Burbuja2 (lista_numeros):
+def BurbujaTradicional (lista_numeros):
     contador_pasos = 0
     contador_ciclos = 0
     for i in range(len(lista_numeros)-1):
@@ -51,12 +51,12 @@ def Seleccion (lista_numeros):
                 menor = lista_numeros[j]
                 posicion = j
                 contador_pasos+=2
-            contador_ciclos = contador_ciclos+1
+            contador_ciclos +=1
             contador_pasos+=3
         temp = lista_numeros[i]
         lista_numeros[i]=menor
         lista_numeros[posicion]=temp
-        contador_pasos +=3
+        contador_pasos +=9
     contador_pasos+=2
 
     print("Ciclos Algoritmo Seleccion: "+str(contador_ciclos))
@@ -68,6 +68,6 @@ with open("pruebas/"+input("Ingrese el nombre del archivo pls: ")+".txt","r") as
         lista_numeros.append(int(linea))
 
 
-Burbuja(lista_numeros)
-Burbuja2(lista_numeros)
+BurbujaOptimizado(lista_numeros)
+BurbujaTradicional(lista_numeros)
 Seleccion(lista_numeros)
