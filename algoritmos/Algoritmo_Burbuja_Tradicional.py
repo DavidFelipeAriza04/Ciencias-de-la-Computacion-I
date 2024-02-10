@@ -25,4 +25,9 @@ with open("pruebas/"+input("Ingrese el nombre del archivo: ")+".txt","r") as arc
         lista_numeros.append(int(linea))
         
 
+print("Lista Desorganizada:\n")
+print(lista_numeros)
+print("\n")
 BurbujaTradicional(lista_numeros)
+print("Lista Organizada:\n")
+print(lista_numeros)
