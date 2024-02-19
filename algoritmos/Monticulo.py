@@ -1,56 +1,44 @@
-def amontonar(lista, n, i, ciclos):
-    mayor = i  # Initialize largest as root
-    izquierda = 2 * i + 1  # left = 2*i + 1
-    derecha = 2 * i + 2  # right = 2*i + 2
-    print("Mayor Antes " + str(lista[mayor]))
-    if izquierda < n:
-        print("Izq " + str(lista[izquierda]))
-    else:
-        print("Izq No hay hijo")
-    if derecha < n:
-        print("Der " + str(lista[derecha]))
-    else:
-        print("Der No hay hijo")
-    # See if left child of root exists and is greater than root
+def amontonar(lista, n, i, ciclos, pasos):
+    ciclos += 1
+    mayor = i
+    izquierda = 2 * i + 1
+    derecha = 2 * i + 2
+    pasos += 3
     if izquierda < n and lista[i] < lista[izquierda]:
         mayor = izquierda
-    # See if right child of root exists and is greater than root
+        pasos += 1
+    pasos+=2
     if derecha < n and lista[mayor] < lista[derecha]:
         mayor = derecha
-    # Change root, if needed
-    print("Mayor Despues " + str(lista[mayor]))
+        pasos += 1
+    pasos+=2
     if mayor != i:
-        print("Cambiando " + str(lista[i])+ " y "+str(lista[mayor]))
-        (lista[i], lista[mayor]) = (lista[mayor], lista[i])  # swap
-        # Heapify the root.
-        print(lista)
-        ciclos+=1
-        amontonar(lista, n, mayor,ciclos)
-    else:
-        print("No hay cambio")
-        print(lista)
-    ciclos+=1
-# The main function to sort an array of given size
-def heapSort(lista):
-    ciclos=0
-    n = len(lista)
-    # Build a maxheap.
-    # Since last parent will be at (n//2) we can start at that location.
-    print(n)
-    print(n // 2)
-    for i in range(n // 2 -1, -1, -1):
-        print("Posicion "+str(i))
-        amontonar(lista, n, i, ciclos)
-        ciclos+=1
-    # One by one extract elements
-    for i in range(n - 1, 0, -1):
-        print("Cambiando "+str(lista[i])+" y "+str(lista[0]))
-        (lista[i], lista[0]) = (lista[0], lista[i])  # swap
-        print(lista)
-        amontonar(lista, i, 0,ciclos)
-        ciclos+=1
-    print(ciclos)
+        (lista[i], lista[mayor]) = (lista[mayor], lista[i])
+        ciclos = amontonar(lista, n, mayor, ciclos,pasos)
+        pasos += 3
+    pasos+=1
+    return ciclos
 
+
+def OredenarHeap(lista, ciclos, pasos):
+
+    n = len(lista)
+    for i in range(n // 2 - 1, -1, -1):
+        ciclos = amontonar(lista, n, i, ciclos, pasos)
+        pasos += 3
+    pasos += 2
+    for i in range(n - 1, 0, -1):
+        (lista[i], lista[0]) = (lista[0], lista[i])
+        ciclos = amontonar(lista, i, 0, ciclos, pasos)
+        pasos += 5
+    pasos += 2
+    pasos += 1
+    print("Ciclos algoritmo HeapSort " + str(ciclos))
+    print("Pasos algoritmo HeapSort " + str(pasos))
+
+
+ciclos = 0
+pasos = 0
 lista = []
 with open(
     "pruebas/" + input("Ingrese el nombre del archivo: ") + ".txt", "r"
@@ -58,7 +46,6 @@ with open(
     for linea in archivo:
         lista.append(int(linea))
 
-lista=[5,4,2,3,7,6,1,9]
-heapSort(lista)
-print("Sorted array is")
+OredenarHeap(lista, ciclos, pasos)
+print("Lista Ordenada:")
 print(lista)
