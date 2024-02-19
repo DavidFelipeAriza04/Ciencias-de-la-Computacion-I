@@ -1,4 +1,4 @@
-def amontonar(lista, n, i):
+def amontonar(lista, n, i, ciclos):
     mayor = i  # Initialize largest as root
     izquierda = 2 * i + 1  # left = 2*i + 1
     derecha = 2 * i + 2  # right = 2*i + 2
@@ -18,34 +18,38 @@ def amontonar(lista, n, i):
     if derecha < n and lista[mayor] < lista[derecha]:
         mayor = derecha
     # Change root, if needed
-
     print("Mayor Despues " + str(lista[mayor]))
     if mayor != i:
         print("Cambiando " + str(lista[i])+ " y "+str(lista[mayor]))
         (lista[i], lista[mayor]) = (lista[mayor], lista[i])  # swap
         # Heapify the root.
         print(lista)
-        amontonar(lista, n, mayor)
+        ciclos+=1
+        amontonar(lista, n, mayor,ciclos)
     else:
         print("No hay cambio")
         print(lista)
+    ciclos+=1
 # The main function to sort an array of given size
 def heapSort(lista):
+    ciclos=0
     n = len(lista)
     # Build a maxheap.
     # Since last parent will be at (n//2) we can start at that location.
     print(n)
     print(n // 2)
     for i in range(n // 2 -1, -1, -1):
-        print("Posicion "+str(i+1))
-        amontonar(lista, n, i)
+        print("Posicion "+str(i))
+        amontonar(lista, n, i, ciclos)
+        ciclos+=1
     # One by one extract elements
     for i in range(n - 1, 0, -1):
         print("Cambiando "+str(lista[i])+" y "+str(lista[0]))
         (lista[i], lista[0]) = (lista[0], lista[i])  # swap
         print(lista)
-        amontonar(lista, i, 0)
-# Driver code to test above
+        amontonar(lista, i, 0,ciclos)
+        ciclos+=1
+    print(ciclos)
 
 lista = []
 with open(
@@ -54,6 +58,7 @@ with open(
     for linea in archivo:
         lista.append(int(linea))
 
+lista=[5,4,2,3,7,6,1,9]
 heapSort(lista)
 print("Sorted array is")
 print(lista)
