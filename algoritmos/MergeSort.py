@@ -1,60 +1,62 @@
-def mergeSort(lista, ciclos):
+import os
+def mergeSort(lista, ciclos, pasos):
     if len(lista) > 1:
-        # print("Lista Completa: " + str(lista))
         listaIzq = lista[: len(lista) // 2]
-        # print("Lista izq: " + str(listaIzq))
         listaDer = lista[len(lista) // 2 :]
-        # print("Lista der: " + str(listaDer))
+        pasos += 2
 
         # Recursion
-        ciclos = mergeSort(listaIzq, ciclos)
-        ciclos = mergeSort(listaDer, ciclos)
+        ciclos, pasos = mergeSort(listaIzq, ciclos, pasos)
+        ciclos, pasos = mergeSort(listaDer, ciclos, pasos)
 
         # Combinar
         i = 0  # Indice lista izq
         j = 0  # Indice lista der
         k = 0  # Indice lista organizada
+        pasos += 3
         while i < len(listaIzq) and j < len(listaDer):
-            # print(f'Comparando {listaIzq[i]} y {listaDer[j]}')
+            pasos += 2
             if listaIzq[i] < listaDer[j]:
-                # print(f'{listaIzq[i]} es menor que {listaDer[j]}')
-                # print(f'Agregando Izq {listaIzq[i]}')
                 lista[k] = listaIzq[i]
                 i += 1
-                # print(f'La lista es {lista}')
+                pasos += 3
             else:
-                # print(f'{listaIzq[i]} es mayor que {listaDer[j]}')
-                # (f'Agregando Der {listaDer[j]}')
                 lista[k] = listaDer[j]
                 j += 1
-                # print(f'La lista es {lista}')
+                pasos += 2
             k += 1
+            pasos+=1
             ciclos += 1
+        pasos += 2
         while i < len(listaIzq):
-            # print(f'Agregando {listaIzq[i]}')
             lista[k] = listaIzq[i]
             i += 1
             k += 1
-            # print(f'La lista es {lista}')
+            pasos+=4
             ciclos += 1
-
+        pasos += 1
         while j < len(listaDer):
             lista[k] = listaDer[j]
-            f"Agregando {listaDer[j]}"
             j += 1
             k += 1
-            # print(f'La lista es {lista}')
+            pasos+=3
             ciclos += 1
-    return ciclos
+        pasos += 1
+    pasos += 1
+    return ciclos, pasos
 
 
 lista = []
-with open("pruebas/" + input("Ingrese el nombre del archivo: ") + ".txt", "r") as archivo:
+with open(
+    os.path.abspath(os.getcwd())+ "\\pruebas\\" + input("Ingrese el nombre del archivo: ") + ".txt", "r"
+) as archivo:
     for linea in archivo:
         lista.append(int(linea))
 
 ciclos = 0
-ciclos = mergeSort(lista, ciclos)
+pasos = 0
+ciclos, pasos = mergeSort(lista, ciclos, pasos)
 print("Lista Ordenada: ")
 print(lista)
-print(f'Ciclos algortimo MergerSort: {ciclos}')
+print(f"Ciclos algortimo MergerSort: {ciclos}")
+print(f"Pasos algortimo MergerSort: {pasos}")

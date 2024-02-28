@@ -1,97 +1,68 @@
-def QuickSort(lista, posicionIncio, posicionFin, posicionPivote):
-    print("Lista:")
-    # print(posicionFin)
-    for i in range(posicionIncio, posicionFin):
-        # print(i)
-        print(lista[i])
-    pivote = lista[posicionIncio]
-    posicionPivote = posicionPivote
-    posicionJ = posicionFin - 1
-    print(
-        "Posicion pivote: "
-        + str(posicionPivote)
-        + " Pivote: "
-        + str(lista[posicionPivote])
-    )
-    print("Posicion fin: " + str(posicionJ))
-    for i in range(posicionIncio, posicionFin):
-        print(
-            "Posicion pivote: "
-            + str(posicionPivote)
-            + " Pivote: "
-            + str(lista[posicionPivote])
-        )
-        print("Posicion i: " + str(i) + " Numero: " + str(lista[i]))
-        if i == posicionJ and lista[i] < pivote:
-            print(
-                "Cambiando pivote "
-                + str(lista[posicionPivote])
-                + " por "
-                + str(lista[i])
-            )
-            (lista[posicionPivote], lista[i]) = (lista[i], lista[posicionPivote])
-            print(lista)
-            QuickSort(lista, posicionPivote, posicionJ, posicionPivote)
-            QuickSort(lista, posicionJ + 1, posicionFin, posicionJ + 1)
-        elif i == posicionJ:
-            print("Misma Posicion")
-        elif lista[i] > pivote:
-            print("Guardado " + str(lista[i]))
-            for j in range(posicionFin - 1, posicionIncio, -1):
-                print("Posicion j: " + str(j) + " Numero: " + str(lista[j]))
-                if lista[j] < pivote:
-                    print("Guardado " + str(lista[j]))
-                    print("Cambiando " + str(lista[i]) + " por " + str(lista[j]))
-                    (lista[i], lista[j]) = (lista[j], lista[i])
-                    print(lista)
-                    j -= 1
-                    posicionJ = j
-                    print("Posicion j: " + str(j) + " Numero: " + str(lista[j]))
-                    break
-                elif i == j:
-                    print(
-                        "Cambiando pivote "
-                        + str(lista[posicionPivote])
-                        + " por "
-                        + str(lista[i])
-                    )
-                    (lista[posicionPivote], lista[i]) = (
-                        lista[i],
-                        lista[posicionPivote],
-                    )
-                    print(lista)
-                    QuickSort(lista, posicionPivote, posicionJ, posicionPivote)
-                    QuickSort(lista, posicionJ + 1, posicionFin, posicionJ + 1)
-                    break
+import os
 
 
-def dividirLista(lista, ciclos):
-    pivote = lista[0]
-    listaMenores = []
-    listaMayores = []
-    for i in range(1, len(lista)):
+def Quick(lista, inicioLista, finLista, ciclos, pasos):
+    i = inicioLista
+    j = finLista
+    pasos+=2
+    if len(lista[inicioLista : finLista + 1]) <= 1:
+        pasos += 1
         ciclos += 1
-        print(ciclos)
-        if lista[i] < pivote:
-            listaMenores.append(lista[i])
+        return ciclos, pasos
+    pivote = lista[inicioLista]
+    pasos+=1
+
+    while j > i:
+        pasos+=1
+        if pivote >= lista[j]:
+            if i == j:
+                pasos+=1
+                break
+            for n in range(i, len(lista)):
+                pasos+=2
+                ciclos += 1
+                if n == j:
+                    i = n
+                    pasos+=2
+                    break
+                if pivote < lista[n]:
+                    aux = lista[n]
+                    lista[n] = lista[j]
+                    lista[j] = aux
+                    i = n
+                    pasos+=5
+                    break
         else:
-            listaMayores.append(lista[i])
-    print(ciclos)
-    return listaMenores, pivote, listaMayores
+            ciclos += 1
+            j -= 1
+            pasos+=1
+    pasos+=1
+    if pivote >= lista[j]:
+        lista[inicioLista] = lista[j]
+        lista[j] = pivote
+        pasos+=5
+    pasos+=1
+    ciclos, pasos = Quick(lista, inicioLista, j - 1, ciclos, pasos)
+    ciclos, pasos = Quick(lista, j + 1, finLista, ciclos, pasos)
+    pasos+=2
+    return ciclos, pasos
 
 
-def Quick_Sort(lista, ciclos):
-    if len(lista) < 2:
-        return lista
-    listaMenores, pivote, listaMayores = dividirLista(lista, ciclos)
-    return (
-        Quick_Sort(listaMenores, ciclos) + [pivote] + Quick_Sort(listaMayores, ciclos)
-    )
+lista = []
+with open(
+    os.path.abspath(os.getcwd())
+    + "\\pruebas\\"
+    + input("Ingrese el nombre del archivo: ")
+    + ".txt",
+    "r",
+) as archivo:
+    for linea in archivo:
+        lista.append(int(linea))
 
-
-lista = [10, 25, 7, 3, 9, 6, 15, 5, 50]
-# QuickSort(lista, 0, len(lista), 0)
 ciclos = 0
-lista = Quick_Sort(lista, ciclos)
+pasos=0
+ciclos, pasos = Quick(lista, 0, len(lista) - 1, ciclos, pasos)
+print("Lista Ordenada: ")
 print(lista)
-print(ciclos)
+print(f"Ciclos algortimo QuickSort: {ciclos}")
+print(f"Pasos algortimo QuickSort: {pasos}")
