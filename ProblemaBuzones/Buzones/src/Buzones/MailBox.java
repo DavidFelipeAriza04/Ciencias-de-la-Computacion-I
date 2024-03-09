@@ -11,54 +11,39 @@ import java.util.Scanner;
  * @author david
  */
 public class MailBox {
-    
-    int[][] arr;
-    int res;
-    public MailBox() {
-        Scanner scanner = new Scanner(System.in);
-        int tc = scanner.nextInt(); //TestCases
-        for (int i = 1; i < tc; i++) {
-            int mb = scanner.nextInt(); //MailBoxes
-            int fc = scanner.nextInt(); //FireCrackers
-            arr = new int[mb + 1][fc + 1];
-            res = mailboxes(mb, fc);
-            System.out.println(res);
-        }
-        scanner.close();
-    }
+    static final int N = 11;
+    static final int M = 101;
 
-    private int mailboxes(int mb, int fc) {
-        int mejor = Integer.MAX_VALUE;
-        if (mb==1){
-            mejor = dp(mb,0,fc);
-        }
-        for (int i = 1; i < fc + 1; i++) {
-            arr[mb][i] = dp(mb, 1, i);
-            if (arr[mb][i] < mejor) {
-                mejor = arr[mb][i];
-            }
-        }
-        return mejor;
-    }
-
-    private int dp(int mb, int i, int j) { //Dinamic Programming
-        if (j >= arr[mb].length || j == 0) {
-            return 0;
-        }
-        if (i == j) {
-            return i;
-        }
-        if (mb == 1) {
-            return (j * (j + 1) / 2) - (i * (i + 1) / 2);
-        }
-        if (arr[mb][j] != 0) {
-            return arr[mb][j];
-        }
-        arr[mb][j] = j + Math.max(dp((mb - 1), i, j - 1), dp(mb, j+1, arr[mb].length-1));
-        return arr[mb][j];
-    }
+    // state, n mailboxes, low, high
+    static int[][][] dp = new int[N][M][M];
 
     public static void main(String[] args) {
-        new MailBox();
+        for (int i = 0; i < M; i++)
+            for (int j = i; j < M; j++)
+                if (i == j) dp[0][i][j] = 0;
+                else dp[0][i][j] = dp[0][j][i] = 1_000_000;
+
+        for (int i = 1; i < N; i++) {// mailboxes
+            for (int j = 1; j < M; j++) {// range, smaller range needs to be solved first
+                for (int k = 0; k + j < M; k++) {// start
+                    int best = 1_000_000;
+                    for (int m = k + 1; m <= k + j; m++) {// midpoint
+                        int explode = dp[i - 1][k][m - 1];
+                        int notExplode = dp[i][m][k + j];
+                        best = Math.min(best, Math.max(explode, notExplode) + m);
+                    }
+                    dp[i][k][k + j] = best;
+                }
+            }
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        int t = scanner.nextInt();
+        while (t-- > 0) {
+            int k = scanner.nextInt();
+            int m = scanner.nextInt();
+            System.out.println(dp[k][0][m]);
+
+        }
     }
 }
