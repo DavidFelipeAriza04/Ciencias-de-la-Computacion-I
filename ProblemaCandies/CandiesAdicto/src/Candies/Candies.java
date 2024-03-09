@@ -51,7 +51,7 @@ public class Candies {
     }
 
     private int MayorCantidadDulces(int ArraySumas[]) {
-        ArrayList<Integer> ListaSumas = new ArrayList();
+        ArrayList<Integer> ListaSumas = new ArrayList<Integer>();
         if (ArraySumas.length == 2) {
             int n1 = ArraySumas[0];
             int n2 = ArraySumas[1];
