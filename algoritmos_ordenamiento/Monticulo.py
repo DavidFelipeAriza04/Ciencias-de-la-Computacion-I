@@ -1,3 +1,6 @@
+import os
+
+
 def amontonar(lista, n, i, ciclos, pasos):
     ciclos += 1
     mayor = i
@@ -7,16 +10,16 @@ def amontonar(lista, n, i, ciclos, pasos):
     if izquierda < n and lista[i] < lista[izquierda]:
         mayor = izquierda
         pasos += 1
-    pasos+=2
+    pasos += 2
     if derecha < n and lista[mayor] < lista[derecha]:
         mayor = derecha
         pasos += 1
-    pasos+=2
+    pasos += 2
     if mayor != i:
         (lista[i], lista[mayor]) = (lista[mayor], lista[i])
-        ciclos = amontonar(lista, n, mayor, ciclos,pasos)
+        ciclos = amontonar(lista, n, mayor, ciclos, pasos)
         pasos += 3
-    pasos+=1
+    pasos += 1
     return ciclos
 
 
@@ -39,13 +42,17 @@ def OredenarHeap(lista, ciclos, pasos):
 
 ciclos = 0
 pasos = 0
-lista = []
+lista_numeros = []
 with open(
-    "pruebas/" + input("Ingrese el nombre del archivo: ") + ".txt", "r"
+    os.path.abspath(os.getcwd())
+    + "\\algoritmos_ordenamiento\\pruebas\\"
+    + input("Ingrese el nombre del archivo: ")
+    + ".txt",
+    "r",
 ) as archivo:
     for linea in archivo:
-        lista.append(int(linea))
+        lista_numeros.append(int(linea))
 
-OredenarHeap(lista, ciclos, pasos)
+OredenarHeap(lista_numeros, ciclos, pasos)
 print("Lista Ordenada:")
-print(lista)
+print(lista_numeros)

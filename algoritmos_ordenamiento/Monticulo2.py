@@ -1,3 +1,6 @@
+import os
+
+
 def Amontonar2(lista, len, pos, ciclos):
     ciclos += 1
     izquierda = 2 * pos + 1  # left = 2*i + 1
@@ -28,20 +31,23 @@ def Amontonar2(lista, len, pos, ciclos):
     return ciclos
 
 
-# lista = []
+# lista_numeros = []
 # with open(
-#     "pruebas/" + input("Ingrese el nombre del archivo: ") + ".txt", "r"
+#     os.path.abspath(os.getcwd())
+#     + "\\algoritmos_ordenamiento\\pruebas\\"
+#     + input("Ingrese el nombre del archivo: ")
+#     + ".txt",
+#     "r",
 # ) as archivo:
 #     for linea in archivo:
-#         lista.append(int(linea))
-
-lista=[4,9,3,2,5,10,11,24,12,90]
+#         lista_numeros.append(int(linea))
+lista = [4, 9, 3, 2, 5, 10, 11, 24, 12, 90]
 
 
 ciclos = 0
 for i in range(len(lista)):
     ciclos = Amontonar2(lista, len(lista) - i, 0, ciclos)
-    print(len(lista)-i)
+    print(len(lista) - i)
     (lista[0], lista[len(lista) - 1 - i]) = (lista[len(lista) - 1 - i], lista[0])
     # print(lista)
 

@@ -1,4 +1,6 @@
 import os
+
+
 def mergeSort(lista, ciclos, pasos):
     if len(lista) > 1:
         listaIzq = lista[: len(lista) // 2]
@@ -25,38 +27,42 @@ def mergeSort(lista, ciclos, pasos):
                 j += 1
                 pasos += 2
             k += 1
-            pasos+=1
+            pasos += 1
             ciclos += 1
         pasos += 2
         while i < len(listaIzq):
             lista[k] = listaIzq[i]
             i += 1
             k += 1
-            pasos+=4
+            pasos += 4
             ciclos += 1
         pasos += 1
         while j < len(listaDer):
             lista[k] = listaDer[j]
             j += 1
             k += 1
-            pasos+=3
+            pasos += 3
             ciclos += 1
         pasos += 1
     pasos += 1
     return ciclos, pasos
 
 
-lista = []
+lista_numeros = []
 with open(
-    os.path.abspath(os.getcwd())+ "\\pruebas\\" + input("Ingrese el nombre del archivo: ") + ".txt", "r"
+    os.path.abspath(os.getcwd())
+    + "\\algoritmos_ordenamiento\\pruebas\\"
+    + input("Ingrese el nombre del archivo: ")
+    + ".txt",
+    "r",
 ) as archivo:
     for linea in archivo:
-        lista.append(int(linea))
+        lista_numeros.append(int(linea))
 
 ciclos = 0
 pasos = 0
-ciclos, pasos = mergeSort(lista, ciclos, pasos)
+ciclos, pasos = mergeSort(lista_numeros, ciclos, pasos)
 print("Lista Ordenada: ")
-print(lista)
+print(lista_numeros)
 print(f"Ciclos algortimo MergerSort: {ciclos}")
 print(f"Pasos algortimo MergerSort: {pasos}")

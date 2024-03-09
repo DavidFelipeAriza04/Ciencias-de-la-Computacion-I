@@ -25,13 +25,13 @@ def MayorCantidadDulces(lista):
     )
 
 
-def DividirMatriz(x, y, matriz):
+def DividirMatriz(x, matriz):
     ListaSumas = []
     for i in range(x):
         ListaSumas.append(MayorCantidadDulces(matriz[i]))
     return MayorCantidadDulces(ListaSumas)
 
-
+# x, y = 5, 5
 matriz = [
     [1, 8, 2, 1, 9],
     [1, 7, 3, 5, 2],
@@ -39,13 +39,21 @@ matriz = [
     [8, 4, 7, 9, 1],
     [7, 1, 3, 1, 6],
 ]
-x, y = 5, 5
 
-matriz2 = [[10, 1, 1, 10], [1, 1, 1, 1], [1, 1, 1, 1], [10, 1, 1, 10]]
+
+matriz2 = [
+    [10, 1, 1, 10],
+    [1, 1, 1, 1],
+    [1, 1, 1, 1],
+    [10, 1, 1, 10]
+]
 # x, y = 4, 4
 
-matriz3 = [[9, 10, 2, 7], [5, 1, 1, 5]]
-# x, y = 2, 4
+matriz3 = [
+    [9, 10, 2, 7],
+    [5, 1, 1, 5]
+]
+x, y = 2, 4
 
 matriz4 = []
 # x, y = 0, 0
@@ -54,12 +62,12 @@ matriz4 = []
 def MostrarMatriz(matriz):
     for fila in matriz:
         for valor in fila:
-            print("\t", valor, end=" ")
+            print("\t", valor, end="")
         print()
 
 
 print(f"Para la matriz:")
-MostrarMatriz(matriz)
+MostrarMatriz(matriz3)
 print(
-    f"La mayor cantidad de dulces que se puden obtener es {DividirMatriz(x, y, matriz)}"
+    f"La mayor cantidad de dulces que se pueden obtener es {DividirMatriz(x, matriz3)}"
 )
