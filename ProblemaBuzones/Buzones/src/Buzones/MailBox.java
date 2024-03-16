@@ -14,7 +14,6 @@ public class MailBox {
     static final int N = 11;
     static final int M = 101;
 
-    // state, n mailboxes, low, high
     static int[][][] dp = new int[N][M][M];
 
     public static void main(String[] args) {
@@ -23,16 +22,16 @@ public class MailBox {
                 if (i == j) dp[0][i][j] = 0;
                 else dp[0][i][j] = dp[0][j][i] = 1_000_000;
 
-        for (int i = 1; i < N; i++) {// mailboxes
-            for (int j = 1; j < M; j++) {// range, smaller range needs to be solved first
-                for (int k = 0; k + j < M; k++) {// start
-                    int best = 1_000_000;
-                    for (int m = k + 1; m <= k + j; m++) {// midpoint
-                        int explode = dp[i - 1][k][m - 1];
-                        int notExplode = dp[i][m][k + j];
-                        best = Math.min(best, Math.max(explode, notExplode) + m);
+        for (int i = 1; i < N; i++) {
+            for (int j = 1; j < M; j++) {
+                for (int k = 0; k + j < M; k++) {
+                    int mejor = 1_000_000;
+                    for (int m = k + 1; m <= k + j; m++) {
+                        int explota = dp[i - 1][k][m - 1];
+                        int noExplota = dp[i][m][k + j];
+                        mejor = Math.min(mejor, Math.max(explota, noExplota) + m);
                     }
-                    dp[i][k][k + j] = best;
+                    dp[i][k][k + j] = mejor;
                 }
             }
         }
